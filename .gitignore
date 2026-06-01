@@ -412,7 +412,8 @@ flycheck_*.el
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -1025,3 +1026,10 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/cvs,svn,vim,emacs,clion,pycharm,intellij,jetbrains,eclipse,notepadpp,sublimetext,visualstudio,visualstudiocode,libreoffice,microsoftoffice,linux,macos,windows
+
+
+# === historian (custom) ===
+/state/
+
+# Historian user-specific config
+scripts/conf_usr.sh
