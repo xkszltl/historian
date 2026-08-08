@@ -49,7 +49,7 @@ Memories from historian:
 '
 
 scripts/mem_find.sh "$sess_dir" < "$conv"   \
-| jq -er --arg event "$(printf '%s' "$input" | jq -er '.hook_event_name')" --arg prompt "$prompt" '
+| jq -r --arg event "$(printf '%s' "$input" | jq -er '.hook_event_name')" --arg prompt "$prompt" '
     .memories
     | select(length > 0)
     | {
