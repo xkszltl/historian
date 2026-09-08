@@ -27,6 +27,14 @@ Currently Historian supports Azure Foundry Memory and uses [hooks](https://code.
           "/abs/path/to/historian/.github/hooks": true
       }
       ```
+      And optionally block unverified injections from other repos if this is your first time enabling the hook.
+      ```json
+      "chat.hookFilesLocations": {
+          ".claude/settings.json": false,
+          ".claude/settings.local.json": false,
+          ".github/hooks": false,
+      }
+      ```
     - Highly recommend to use **absolute path**, because rel glob like `".github/hooks"` auto-trusts hooks from all dir in ws and can be dangerous.
     - Hook may be blocked by certain enterprise/orgnization policy.
 4. Open a chat session and watch *View -> Output -> [channel] GitHub Copilot Chat Hooks* to confirm its enablement from log.
@@ -36,6 +44,10 @@ Currently Historian supports Azure Foundry Memory and uses [hooks](https://code.
 5. Memory store will be auto-created with preset configs when missing.
     - Existing memory store will not be reconfigured.
 6. Check from Foundry Memory UX to confirm successful ingestion of memories.
+7. Large memory from hook may overwrite large tool call output when spilled to file.
+    - This is a known bug of VSCode as of 1.136.1 (2026-09).
+        - https://github.com/microsoft/vscode/issues/334999
+    - Mitigate with `"github.copilot.chat.agent.largeToolResultsToDisk.thresholdBytes": 50000` to prefer inlining over spilling to file.
 
 # Configuration
 
