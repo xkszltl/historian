@@ -1,0 +1,65 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+dependencies = [
+    "anyio",
+    # - v2 SDK required for the stateless MCP introduced in mid 2026.
+    "mcp>=2.0",
+    "pyyaml",
+]
+description = "Historian memory over MCP stdio"
+name = "historian-mcp"
+readme = "README.md"
+# - Python 3.10 required for PEP604.
+#   https://docs.python.org/3/whatsnew/3.10.html#pep-604-new-type-union-operator
+requires-python = ">=3.10"
+version = "0.1.0"
+
+[project.optional-dependencies]
+dev = ["build", "pytest", "pytest-xdist", "ruff"]
+
+[project.scripts]
+historian-mcp = "historian_mcp.__main__:main"
+
+[tool.hatch.build]
+exclude = [
+    "/scripts/conf_usr.sh",
+    "/scripts/conf_usr.sh.staging",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/.agents/skills",
+    "/LICENSE",
+    "/README.md",
+    "/historian_mcp",
+    "/pyproject.toml",
+    "/scripts",
+    "/tests",
+]
+
+[tool.hatch.build.targets.wheel]
+only-include = [".agents/skills", "historian_mcp", "scripts"]
+
+[tool.hatch.build.targets.wheel.sources]
+".agents" = "historian_mcp/.agents"
+"scripts" = "historian_mcp/scripts"
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 180
+target-version = "py310"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "Q"]
+
+[tool.ruff.lint.flake8-quotes]
+avoid-escape = false

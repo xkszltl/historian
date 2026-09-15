@@ -1,0 +1,28 @@
+{
+    "inputs": [
+        {
+            "default": "",
+            "description": "Foundry account/project (empty to use scripts/conf_usr.sh)",
+            "id": "HISTORIAN_FOUNDRY",
+            "type": "promptString"
+        }
+    ],
+    "servers": {
+        "historian": {
+            "args": ["-m", "historian_mcp"],
+            "command": "python3",
+            "cwd": "${workspaceFolder}",
+            "dev": {
+                "watch": [
+                    ".agents/skills/historian-ask/SKILL.md",
+                    "historian_mcp/**/*.py"
+                ]
+            },
+            "env": {
+                "HISTORIAN_FOUNDRY": "${input:HISTORIAN_FOUNDRY}",
+                "PATH": "${workspaceFolder}/.venv/bin/:${env:PATH}"
+            },
+            "type": "stdio"
+        }
+    }
+}

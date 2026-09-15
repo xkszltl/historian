@@ -1344,6 +1344,9 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/cvs,svn,vim,node,venv,clion,emacs,linux,macos,python,eclipse,pycharm,windows,intellij,jetbrains,notepadpp,libreoffice,sublimetext,visualstudio,microsoftoffice,visualstudiocode
 
 
+# Revert vscode rule.
+!/.vscode/mcp.json
+
 # Revert venv rule.
 !scripts/
 

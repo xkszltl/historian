@@ -20,6 +20,7 @@ Currently Historian supports Azure Foundry Memory and uses [hooks](https://code.
 
 1. `az login` to allow auth for `https://ai.azure.com/`.
 2. Clone and add this repo to VSCode workspace.
+    - Connect to Azure Foundry Memory with `HISTORIAN_FOUNDRY="<foundry_name>/<foundry_proj>" scripts/setup.sh`.
 3. Hooks are auto-discovered from paths in `chat.hookFilesLocations`.
     - If not, add to search paths in user `settings.json`, or the `"settings"` block of a `*.code-workspace` file:
       ```json
@@ -48,6 +49,29 @@ Currently Historian supports Azure Foundry Memory and uses [hooks](https://code.
     - This is a known bug of VSCode as of 1.136.1 (2026-09).
         - https://github.com/microsoft/vscode/issues/334999
     - Mitigate with `"github.copilot.chat.agent.largeToolResultsToDisk.thresholdBytes": 50000` to prefer inlining over spilling to file.
+
+### On-demand Retrival
+
+Historian support both automatic memory retrival via hook, and on-demand retrival initiated by LLM agent.
+We provide LLM Skill for calling `mem_ask.sh`, and an optional MCP server to minimize cmd auditing.
+
+This optional MCP server requires:
+- Python >= 3.10, with `pip` and `venv` (optional).
+- Other cmds used by Historian hook, including `az`, `curl`, `jq`, `sed`.
+- After following the setup process, install py deps to repo dir with:
+    - `python3 -m venv .venv && .venv/bin/python3 -m pip install -e .`
+    - Alternative manually instead the required libs directly into your system python.
+- In VSCode, MCP should already be available via `.vscode/mcp.json` when adding repo to workspace.
+    - Cmd+Shift+P -> "MCP: List Servers" -> "historian" to confirm or restart after installing py libs.
+    - You will be prompted for Azure Foundry resources upon first launch.
+      Leave empty if already done in `setup.sh`.
+- For other harnesses, register MCP with:
+    - [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers):
+        - `copilot mcp add historian --tools historian_ask -- "$PWD/.venv/bin/python3" -m historian_mcp`
+    - [Claude Code](https://code.claude.com/docs/en/mcp#option-3-add-a-local-stdio-server):
+        - `claude mcp add --transport stdio --scope user historian -- "$PWD/.venv/bin/python3" -m historian_mcp`
+    - [Codex](https://learn.chatgpt.com/docs/extend/mcp?surface=cli):
+        - `codex mcp add historian -- "$PWD/.venv/bin/python3" -m historian_mcp`
 
 # Configuration
 
