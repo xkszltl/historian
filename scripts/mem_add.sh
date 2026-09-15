@@ -57,7 +57,6 @@ jq -e 'select(.type | endswith(".message"))'    \
     ]
 }'                                              \
 | jq -es '.'                                    \
-| jq -e 'reverse'                               \
 | jq -e '{
     items: .,
     scope: "'"$HISTORIAN_SCOPE"'",

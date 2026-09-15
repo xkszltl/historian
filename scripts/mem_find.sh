@@ -47,7 +47,6 @@ jq -e '
 | scripts/redact.sh                                 \
 | jq -es '.'                                        \
 | jq -e '.[-10:]'                                   \
-| jq -e 'reverse'                                   \
 | jq -e '{
     scope: "'"$HISTORIAN_SCOPE"'",
     options: {
