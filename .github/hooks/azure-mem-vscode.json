@@ -9,7 +9,7 @@
     ],
     "PreToolUse": [
       {
-        "command": "scripts/hook_user_prompt_submit.sh",
+        "command": "scripts/hook_pre_compact.sh",
         "timeout": 15,
         "type": "command"
       }
