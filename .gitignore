@@ -1033,3 +1033,4 @@ FodyWeavers.xsd
 
 # Historian user-specific config
 scripts/conf_usr.sh
+scripts/conf_usr.sh.staging
