@@ -33,29 +33,14 @@ scripts/mem_add.sh "$sess_dir" 0 < "$conv" >&2 &
 bg=$!
 trap 'trap - EXIT HUP INT TERM; /bin/kill -TERM "$bg" || true; wait "$bg" || true; exit 1' EXIT HUP INT TERM
 
-prompt='Historian links AI agents to memory store to provide info beyond LLM context.
-We evaluate its quality while using.
-List out historian memory particularly useful for the current round at the end of response, titled "Helpful Historian Memories".
-Usefulness measured by but not limited to:
-- Providing info not available in non-memory context.
-- Sifting your assumption/decision.
-- Providing high-level insight that you need extra effort to derive.
-- Reliably reducing effort of research and experiment.
-
-Only include high quality historian memories and omit the section if none of them is necessary.
-Each entry contains memory `.kind` and a brief 1-sentence summary of `.content`, in the form of "- **[chat_summary]** Alice likes red car."
-
-Memories from historian:
-'
-
 scripts/mem_find.sh "$sess_dir" < "$conv"   \
-| jq -r --arg event "$(printf '%s' "$input" | jq -er '.hook_event_name')" --arg prompt "$prompt" '
+| jq -r --arg event "$(printf '%s' "$input" | jq -er '.hook_event_name')" '
     .memories
     | select(length > 0)
     | {
         hookSpecificOutput: {
             hookEventName: $event,
-            additionalContext: $prompt + tojson
+            additionalContext: "Memories from historian:\n" + tojson
         }
     }
 '
