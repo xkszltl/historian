@@ -2,26 +2,46 @@
 name: historian-ask
 description: >-
   Use Historian for context, constraints, decisions, preferences, and lessons in planning, review, coding, debugging, or research.
-  At task start and before each substantive action, including long tests or user-observed commands, check coverage.
-  Reuse recent results only for the same action, target, and failure; otherwise query before acting.
-  Query new error signatures before investigating; recheck topic, target, or approach changes.
-  Check before hypotheses, composing commands, tool calls, edits, or doc lookups; confidence is not coverage.
-  Conversation or summary fragments lacking source, scope, or verification status are leads, not coverage; query before relying on them.
-  Refresh after extended work, interruptions, or compaction; other sessions may update memory.
-  Consider Historian alongside local or other memory tools.
-  Weigh query cost against rework and mistakes; avoid quotas, fixed schedules, and unproductive retries.
-  Use historian_ask MCP or the historian-ask skill; discover the tool first if deferred.
+  Before each new task decision or action, complete a memory pass, then formulate the step.
+  A step follows new evidence or a changed goal, target, artifact, audience, or failure; a pass covers only its declared actions.
+  New user tasks require a fresh pass, even mid-turn.
+  Prefer historian-attn for bounded selection; direct historian_ask also satisfies the pass for full detail or when delegation is unavailable.
+  Query before composing commands, edits, or investigating new errors; confidence, existing context, or expecting no useful result do not exempt a step.
+  Unsupported conversation or summary fragments are leads, not coverage.
+  Refresh after interruptions or compaction.
+  Successful no-match completes the pass; errors are not no-match.
+  Memory-reading operations do not trigger another pass or delegation.
+  Use historian_ask MCP or the historian-ask skill; discover deferred tools first.
 ---
 
 # Ask Historian
 
-Follow the description's timing policy; leave automatic hooks unchanged.
+Follow the description's memory-pass protocol; leave automatic hooks unchanged.
+
+## Memory Pass
+
+Before proceeding with a new task step, invoke [historian-attn](../../../.github/agents/historian-attn.agent.md) as a subagent and wait for its result.
+Send the current goal, intended next action and target, any known method or tool, relevant observations and known constraints, and concerns to search; do not forward the whole transcript.
+Use `brief` mode by default; request `raw` for the relevant concern when a decision depends on exact wording, such as intent or contract status.
+Raw mode returns complete selected memory items without summarization.
+The reader performs the retrieval and selection, not the task itself.
+
+Use direct ask instead when delegation is unavailable or when full results or independent exploration are needed.
+A reader already executing this pass calls Historian directly without spawning another reader.
+Apply relevant evidence and current instructions before composing or executing the action; a successful search with no useful matches still completes the pass.
+If retrieval fails, use an available fallback or disclose the failure rather than claim coverage.
+Do not retry merely to fill a result budget or produce a useful hit.
+
+Subagent calls may be stateless: include the required context in every request, including follow-up searches.
+Memory IDs provide attribution, not a fetch-by-ID capability; a later search may return different results.
+Brief response limits are instruction-level budgets, not enforced caps; raw mode deliberately bypasses them.
 
 ## Compose a Query
 
 Use descriptive phrases for semantic search, not instructions to an agent.
 
 - Query one concern, not the entire workflow; retain identifiers and qualifiers relevant to that concern.
+- For a non-trivial method or tool in the next action, query its usage constraints and pitfalls separately from the subject being investigated.
 - Omit other goals and follow-up steps even when task-relevant; focus matters more than query length.
 - Seek constraints, prohibitions, and rejected alternatives as well as preferred approaches, without assuming a prohibition exists.
 - Use known context, not invented details; omit conversational framing and output-format requests.
@@ -38,7 +58,7 @@ Other focused queries include "JavaScript CI test timeout fixes", "Protein struc
 
 ## Run Ask
 
-Prefer the `historian_ask` MCP tool with a nonblank `query` string.
+For direct retrieval, use the `historian_ask` MCP tool with a nonblank `query` string.
 If deferred, discover it first; subsequent memory queries call the loaded tool directly.
 
 ```json

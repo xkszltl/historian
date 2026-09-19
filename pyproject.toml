@@ -32,6 +32,7 @@ exclude = [
 [tool.hatch.build.targets.sdist]
 include = [
     "/.agents/skills",
+    "/.github/agents",
     "/LICENSE",
     "/README.md",
     "/historian_mcp",
@@ -41,10 +42,11 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-only-include = [".agents/skills", "historian_mcp", "scripts"]
+only-include = [".agents/skills", ".github/agents", "historian_mcp", "scripts"]
 
 [tool.hatch.build.targets.wheel.sources]
 ".agents" = "historian_mcp/.agents"
+".github" = "historian_mcp/.github"
 "scripts" = "historian_mcp/scripts"
 
 [tool.pytest.ini_options]
