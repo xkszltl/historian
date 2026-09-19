@@ -17,7 +17,11 @@ for cmd in jq; do
     exit 1
 done
 
-input="$(jq -e '{hook_event_name,session_id,transcript_path}')"
+input="$(jq -e '{hook_event_name,prompt,session_id,transcript_path}')"
+if printf '%s\n' "$input" | jq -e '.prompt | type == "string" and startswith("[historian-attn:no-auto-memory]\n")' > /dev/null; then
+    exit 0
+fi
+
 sess_dir="state/sessions/$(printf '%s' "$input" | jq -er '.session_id')"
 conv="$(printf '%s' "$input" | jq -er '.transcript_path // empty' || cat "$sess_dir/transcript_path.txt" 2>/dev/null || true)"
 if [ ! "$conv" ]; then
