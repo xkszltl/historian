@@ -66,6 +66,9 @@ Keep these distinctions explicit:
   Conversely, absence of procedural items alone does not establish a failed query.
 - **Selection versus fidelity:** Finding the right item does not prove the brief preserved the decisive clause.
   Comparing a brief with a later direct ask is not a controlled brief/raw comparison; retain exact wording where it matters without assuming raw mode would succeed.
+  Compare each retained chunk and context summary with its attributed item, not with the caller's prompt or the union of retrieved results.
+  Prefer coarse source-local passages over terse paraphrases; ensure omissions preserve negations, conditions, exceptions, subjects, and uncertainty.
+  Attention retrieves and selects, while its caller analyzes; do not tune cross-source synthesis or relevance explanation into the attention response.
 
 Preserve positive evidence as well as failures, including conflict surfacing, useful prior art, qualification preservation, and successful fallback.
 Do not rule out capture/ranking problems merely because another query worked, or attribute a tool restriction to prompt wording without checking the relevant implementation.
@@ -90,7 +93,8 @@ Keep configured head counts, result limits, output budgets, direct ask, raw mode
 Put proactive triggers and routing exceptions in the description visible before loading or delegation; keep shared ask/MCP timing policy single-sourced.
 Put child execution rules in the agent body; do not assume the child receives the description or the parent receives the body.
 Make returned handoffs self-contained, and scope routing exceptions by concrete needs rather than broad task labels.
-When changing canonical sections duplicated in [historian-attn](../../../.github/agents/historian-attn.agent.md), update the exact copies together and retain their synchronization note.
+Keep the `Compose a Query` section duplicated in [historian-attn](../../../.github/agents/historian-attn.agent.md) identical to its canonical ask section, retaining the synchronization note.
+Keep attention's task-specific source selection separate from the caller's result interpretation.
 Do not restore runtime file reads merely to avoid maintaining intentional inline copies.
 Preserve distinctions between user intent, verified technical facts, historical claims, and current authorization.
 
@@ -102,6 +106,10 @@ Choose checks according to the change rather than running the whole system for e
 - Parse frontmatter and verify name/location, invocation flags, description length, links, and Markdown indentation.
   Skill descriptions must fit the 1,024-character limit; use read-only validation rather than cleanup-capable scripts.
 - Compare duplicated sections exactly and check adjacent guidance for contradictions or stale references.
+- For structured attention responses, validate the schema, explicit selection hyperparameter, and full-ID membership, then check retained chunks and metadata against their own source items.
+  Validate substring order and `<...>` omission boundaries; inspect omitted material for meaning-changing cuts and source-local context summaries.
+  Valid JSON alone does not establish source fidelity; test missing IDs, redundant selections, facts supplied only by the caller, and analytical commentary.
+  Count all actual asks and their dispatch rounds, including preliminary calls; one ask followed by a full batch violates the single-batch contract.
 - When the shared MCP metadata path changes, check that fresh initialization instructions equal the skill description and the tool description matches its canonical text.
   A fresh handshake does not establish what a prior incident or an already-running client had loaded.
 - For behavior claims, use authorized fresh-task comparisons with a baseline and contrasting cases, including correct local notes, no relevant memory, misleading results, and wording-sensitive decisions when applicable.

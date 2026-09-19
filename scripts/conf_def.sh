@@ -5,7 +5,7 @@
 [ "$HISTORIAN_EMB"      ] || HISTORIAN_EMB='text-embedding-3-small'
 [ "$HISTORIAN_FOUNDRY"  ] || HISTORIAN_FOUNDRY='my-foundry/proj-default'
 [ "$HISTORIAN_LOG_CURL" ] || HISTORIAN_LOG_CURL='curl.log'
-[ "$HISTORIAN_MAX_MEM"  ] || HISTORIAN_MAX_MEM='10'
+[ "$HISTORIAN_MAX_MEM"  ] || HISTORIAN_MAX_MEM='3'
 [ "$HISTORIAN_SCOPE"    ] || HISTORIAN_SCOPE='{{$userId}}'
 [ "$HISTORIAN_STORE"    ] || HISTORIAN_STORE='historian'
 [ "$HISTORIAN_URL"      ] || HISTORIAN_URL="https://$(printf '%s' "$HISTORIAN_FOUNDRY" | cut -d/ -f1).services.ai.azure.com/api/projects/$(printf '%s/' "$HISTORIAN_FOUNDRY" | cut -d/ -f2)"
