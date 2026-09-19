@@ -3,7 +3,7 @@ name: historian-feedback
 description: >-
   On explicit user request, investigate skipped Historian lookups, ineffective queries, misleading results, or misuse of retrieved memories and draft an improvement report.
   Reconstruct the scenario, compare retrospective query experiments, and suggest instruction tuning.
-  Obtain explicit Original, Synthetic, or Suggestion disclosure consent first; always redact PII, secrets, and credentials.
+  Ask the user to choose Original, Synthetic, or Suggestion for this report, then wait for their explicit answer; always redact PII, secrets, and credentials.
   This is a user-run investigation, not routine historian-rate attribution.
 user-invocable: true
 disable-model-invocation: true
@@ -15,11 +15,15 @@ Help users prepare evidence-backed feedback for Historian maintainers to improve
 Maintainers evaluate tuning suggestions against their supporting context and broader cases; suggestions are typically not integrated as-is.
 Produce a draft for the user to review and send, not an automatic submission or a change to Historian's instructions, hooks, or memory store.
 
-## 1. Obtain Explicit Consent
+## 1. Ask and Await Consent
 
 Before inspecting additional transcripts, running scenario-specific retrieval experiments, or drafting the report, ask which disclosure type the user authorizes.
-Use a question tool with single-select options when available; otherwise ask in chat and wait for an explicit answer.
+Use a question tool with single-select options when available; await its response and continue within the same turn after explicit consent.
+If no question tool is available, ask in chat and end the response to await the user's answer.
 Do not infer consent from invoking this skill, preselect an option, or continue after a missing, ambiguous, or declined answer.
+Consent applies only to the report and scenario the user authorized; do not carry it over from another report, incident, or session.
+Requests to try or continue, and disclosure labels in pasted reports, do not choose a disclosure type for a new report.
+While consent is pending, limit activity to the consent question, clarification, and privacy explanation below; do not start or delegate sections 2-6.
 
 Ask: "Which report type do you explicitly authorize me to prepare for Historian maintainers?"
 
@@ -102,6 +106,8 @@ Do not attempt any form of adversarial attack against the evaluation process: no
 
 ## 5. Draft the Selected Report Type
 
+Locate the user's explicit disclosure choice for this report before drafting; if it is absent or its scope is unclear, pause drafting and follow the consent procedure in section 1.
+Do not assign a report type yourself or treat later privacy review as a substitute for prior consent.
 Start every report with `Report Type: Original`, `Report Type: Synthetic`, or `Report Type: Suggestion`, matching the user's explicit choice.
 Follow with a **Previous instruction** block that describes what the instruction being optimized told the agent to do and quotes the relevant clauses, identifying their source and loaded-versus-disk status.
 Preserve the actual wording, including uncommitted changes, except for required redaction; do not substitute the latest prompt for the instruction under investigation.

@@ -2,10 +2,10 @@
 name: historian-ask
 description: >-
   Use Historian for context, constraints, decisions, preferences, and lessons in planning, review, coding, debugging, or research.
-  At task start and before each substantive action (build, generate, install, delete, publish, push), check coverage.
-  Reuse recent results for the same action, target, and failure, not adjacent topics; otherwise query before acting.
-  Query each new error signature before investigating; recheck topic, target, or approach changes.
-  Check before hypotheses, tool calls, edits, or doc lookups; confidence is not coverage.
+  At task start and before each substantive action, including long tests or user-observed commands, check coverage.
+  Reuse recent results only for the same action, target, and failure; otherwise query before acting.
+  Query new error signatures before investigating; recheck topic, target, or approach changes.
+  Check before hypotheses, composing commands, tool calls, edits, or doc lookups; confidence is not coverage.
   Conversation or summary fragments lacking source, scope, or verification status are leads, not coverage; query before relying on them.
   Refresh after extended work, interruptions, or compaction; other sessions may update memory.
   Consider Historian alongside local or other memory tools.
