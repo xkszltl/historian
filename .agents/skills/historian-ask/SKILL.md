@@ -1,18 +1,16 @@
 ---
 name: historian-ask
 description: >-
-  Use Historian for context, constraints, decisions, preferences, and lessons in planning, review, coding, debugging, or research.
-  Do not wait for an explicit request or a known context gap.
-  Before each new task decision or action, complete a memory pass, then formulate the step.
-  A step follows new evidence or a changed goal, target, artifact, audience, or failure; a pass covers only its declared actions.
-  New user tasks require a fresh pass, even mid-turn.
-  This skill covers direct retrieval and result interpretation.
-  Query before composing commands, edits, or investigating new errors; confidence, existing context, or expecting no useful result do not exempt a step.
-  Local notes and other memory tools do not replace a pass; unsupported fragments are leads.
-  Refresh after interruptions or compaction.
-  Successful no-match completes the pass; errors are not no-match.
-  Retrieval within a pass does not trigger recursive passes.
-  Use historian_ask MCP or this skill; discover deferred tools first.
+  Use Historian proactively before planning, review, coding, debugging, or research decisions; do not wait for a request or known gap.
+  Refresh at a new task or changed goal, target, approach, or failure, and after compaction.
+  Use historian_ask for specific queries and, when available, historian-attn for broad goal-based retrieval.
+  These are independent channels: when both apply, dispatch them in parallel from the same pre-action context, not one after the other.
+  Direct ask works without subagents; discover deferred tools first.
+  For VS Code attention calls, explicitly pass model "Auto (copilot)" when supported; omission follows configured defaults, not necessarily Auto.
+  Elsewhere use the supported Auto selector, or omit unsupported model options.
+  Reuse coverage for unchanged follow-through; local notes do not replace a pass.
+  Retrieval does not trigger recursive passes.
+  Successful no-match completes the pass; errors do not.
 ---
 
 # Ask Historian
@@ -21,14 +19,34 @@ Follow the description's memory-pass protocol; leave automatic hooks unchanged.
 
 ## Memory Pass
 
-Use the query and invocation guidance below for direct retrieval.
+Before choosing the next action, use direct ask for specific questions and the optional attention channel for broader goal-level context.
+At a substantive task start, compose the focused queries and attention request independently from the same known context and dispatch them together when both channels apply.
+Do not wait for an ask result before launching attention, or wait for attention before asking a question that is already identifiable.
+Use sequential retrieval only when a later query genuinely depends on an earlier result.
+Neither channel is a prerequisite for the other; without subagent support or the named agent, continue using direct ask normally.
+
+A pass covers its declared actions, target, and failure or question; a related topic alone does not cover the planned method.
+Reuse that coverage through unchanged reads, edits, and checks; do not invoke attention again merely because another tool call occurs.
+Refresh broad attention when the goal-level scope changes, and use focused asks for new specific questions within that scope.
+New user tasks, changed targets or approaches, new failures, and interruptions or compaction require fresh coverage before acting.
 Reading local notes or host-native memory neither triggers a recursive pass nor satisfies the required Historian pass.
 Those sources can still be useful, and applicable project instructions still govern the task.
-Apply relevant evidence and current instructions before composing or executing the action; a successful search with no useful matches still completes the pass.
-If retrieval fails, use an available fallback or disclose the failure rather than claim coverage.
+Apply relevant evidence and current instructions before composing or executing the action; a successful search with no useful matches completes the pass without supplying decision support.
+If retrieval fails, use only an authorized fallback or disclose the failure rather than claim coverage.
 Do not retry merely to fill a result budget or produce a useful hit.
 
 Memory IDs provide attribution, not a fetch-by-ID capability; a later search may return different results.
+
+## Optional Attention Channel
+
+When the harness exposes `historian-attn` and permits delegation, send it the goal, next action, target, method/tool, observations, and constraints.
+Carry retrieval-interface restrictions into delegated work; if a child lacks an authorized interface, it must report the limitation rather than substitute a forbidden interface.
+Use the harness's parallel tool-call facility for independent direct asks alongside that invocation; do not send both channels the same fixed query list.
+In VS Code, call `runSubagent` with `agentName: "historian-attn"` and explicitly set `model: "Auto (copilot)"` when that selector is supported.
+Omitting `model` uses the harness's configured default selection or inheritance; it is not an explicit Auto request.
+On other harnesses, use the supported automatic selector or omit unsupported model options; do not require changing settings or agent metadata.
+Wait for the requested results and inspect each channel's coverage and errors before acting; independent searches can still return overlapping evidence.
+This is caller guidance, not a requirement for executing `historian_ask`; retrieval already in progress must not start recursive memory passes or nested attention calls.
 
 ## Compose a Query
 
@@ -59,7 +77,8 @@ If deferred, discover it first; subsequent memory queries call the loaded tool d
 {"query": "Python test invocation preferences"}
 ```
 
-Otherwise, resolve [mem_ask.sh](../../../scripts/mem_ask.sh) relative to this skill, not the working directory, and send nonblank plain text on stdin, not as an argument.
+MCP-only restrictions exclude script and terminal HTTP substitutes even when MCP or tool discovery is unavailable.
+When script retrieval is permitted, resolve [mem_ask.sh](../../../scripts/mem_ask.sh) relative to this skill, not the working directory, and send nonblank plain text on stdin, not as an argument.
 From the Historian checkout:
 
 ```sh
@@ -80,7 +99,8 @@ Use relevant partial results while disclosing errors; execution or parsing failu
   Judge content, not kind: summaries can contain useful rules, and `memories: []` does not prove none exist.
 - **Separate intent from facts.** Use attributable, applicable user preferences and decisions to guide choices unless superseded by current instructions.
   Verify technical claims you will rely on against current source, documentation, or observed output; a `procedural` label does not mean tested.
-- **Check disagreement.** Scan the batch for conflicting claims before applying one.
+- **Check applicability and disagreement.** Match guidance to the planned operation, environment, and scope, not just its topic.
+  Distinguish broad defaults from operation-specific exceptions; apply each only within its stated conditions and scan for conflicting claims.
   Resolve user-intent conflicts by scope and later explicit decisions, and factual conflicts with current evidence, not rank or date alone.
   Surface unresolved conflicts that affect the action rather than silently choosing a convenient result.
 - **Check provenance.** An unexecuted agent plan is not an established workflow.

@@ -1,16 +1,17 @@
 ---
 name: historian-attn
 description: >-
-  Invoke before each new decision or action in planning, review, coding, debugging or research; do not wait for a request or known gap.
-  Prefer the harness's automatically routed model: use its supported selector in the call's model argument; otherwise omit model to inherit.
-  Call before commands, edits or error investigation; refresh for new tasks, goals, targets, artifacts, audiences, interruptions or compaction.
-  Send goal, next action, target, method/tool, observations, constraints and concerns; wait and check coverage.
-  Default to brief JSON of source chunks; use raw for complete items.
+  Invoke proactively for broad goal-based context at new tasks, changed goals, targets, approaches or failures, and after compaction.
+  Do not wait for a request or known gap; reuse coverage for unchanged follow-through.
+  Direct ask handles specific queries independently; dispatch both in parallel when both apply.
+  In VS Code pass model "Auto (copilot)" when supported; omitting model follows configured defaults, not necessarily Auto.
+  Elsewhere use the supported Auto selector, or omit unsupported model options.
+  Send goal, next action, target, method/tool, observations and constraints; wait and check coverage.
+  Default to brief source chunks; use raw for complete items.
   Analysis belongs to the caller.
-  Responses are generated: IDs and content may be copied incorrectly; verify originals before exact use.
+  Generated IDs/content may be copied incorrectly; verify originals before exact use.
   One parallel batch, no preliminary asks; only the parent starts further batches.
   Successful no-match completes a pass; errors do not.
-  Direct historian_ask only on explicit user request, verified delegation unavailability, or a stated need for complete, unselected backend results.
 tools: ['historian/*']
 agents: []
 user-invocable: false
@@ -43,9 +44,11 @@ Input is the parent's goal, next action and target, method/tool, observations, c
 Use `brief` by default and `raw` only when requested for complete source items; both obey the same single-batch limit.
 The parent waits and checks status, coverage, and retrieval limits before applying results; it owns comparison, relevance, fact checking, and conclusions.
 All output is generated: valid JSON does not prove accurate IDs, metadata, or text, so exact-ID operations and wording-sensitive decisions require checking originals, not silently repairing references.
-Successful retrieval, including no useful matches, completes the declared memory pass; partial results retain errors, and a retrieval failure does not itself make delegation unavailable.
+Successful retrieval, including no useful matches, completes the declared memory pass; retain errors alongside any usable partial results.
 `expand` proposes a new parent-initiated retrieval only for a material uncovered concern; it never permits another batch here or retries just to fill a budget.
-Routine research/debugging uses attention; the parent uses direct ask only for an explicit user request, verified delegation unavailability, or a stated need for complete, unselected backend results.
+Use both channels proactively and frequently: direct ask targets a specific query, while attention explores broader concerns from the supplied goal.
+Neither channel is a prerequisite or fallback for the other; when both apply, the parent dispatches them in parallel from the same pre-action context without waiting for either result first.
+Reuse broad coverage for unchanged follow-through; refresh it for changed goals, targets, approaches, failures, or context loss rather than every tool call.
 
 ## Retrieval
 
