@@ -32,7 +32,7 @@ elif [ "$conv" != "$(cat "$sess_dir/transcript_path.txt" 2>/dev/null || true)" ]
     mv -f "$sess_dir/transcript_path.staging.d/pid-$$.txt" "$sess_dir/transcript_path.txt"
     printf '\033[36m[INFO] Set transcript_path "%s".\033[0m\n' "$conv" >&2
 fi
-scripts/mem_add.sh "$sess_dir" 0 < "$conv" >&2
+[ "$1" = '--no-add' ] || scripts/mem_add.sh "$sess_dir" 0 < "$conv" >&2
 
 printf '%s\n' "$input" | jq -r '
     select(.hook_event_name == "PreToolUse" and .tool_name == "runSubagent" and .tool_input.agentName == "historian-attn")
