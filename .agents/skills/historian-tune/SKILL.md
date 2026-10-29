@@ -104,6 +104,7 @@ Preserve distinctions between user intent, verified technical facts, historical 
 ## Validate the Changed Surface
 
 Run the cheapest focused check immediately after the first substantive edit; repair a local failure before expanding scope.
+Use short, reviewable validation commands that match project conventions; syntax and editor checks alone do not validate runtime effects.
 Choose checks according to the change rather than running the whole system for every wording edit:
 
 - Parse frontmatter and verify name/location, invocation flags, description length, links, and Markdown indentation.

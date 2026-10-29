@@ -31,7 +31,9 @@ Refresh broad attention when the goal-level scope changes, and use focused asks 
 New user tasks, changed targets or approaches, new failures, and interruptions or compaction require fresh coverage before acting.
 Reading local notes or host-native memory neither triggers a recursive pass nor satisfies the required Historian pass.
 Those sources can still be useful, and applicable project instructions still govern the task.
-Apply relevant evidence and current instructions before composing or executing the action; a successful search with no useful matches completes the pass without supplying decision support.
+Apply relevant evidence and current instructions before composing the action, then compare the concrete edit or command with verified, applicable constraints before applying or executing it.
+Preserve working user expressions and structure unless the requested change requires altering them; retrieved preferences do not authorize unrelated rewrites.
+A successful search with no useful matches completes the pass without supplying decision support.
 If retrieval fails, use only an authorized fallback or disclose the failure rather than claim coverage.
 Do not retry merely to fill a result budget or produce a useful hit.
 
