@@ -1,34 +1,35 @@
 {
+  "version": 1,
   "hooks": {
-    "PreCompact": [
+    "preCompact": [
       {
         "command": "scripts/hook_pre_compact.sh",
         "timeout": 30,
         "type": "command"
       }
     ],
-    "PreToolUse": [
+    "preToolUse": [
       {
         "command": "scripts/hook_pre_compact.sh",
         "timeout": 15,
         "type": "command"
       }
     ],
-    "SessionStart": [
+    "sessionStart": [
       {
         "command": "scripts/hook_session_start.sh",
         "timeout": 30,
         "type": "command"
       }
     ],
-    "Stop": [
+    "agentStop": [
       {
         "command": "scripts/hook_pre_compact.sh",
         "timeout": 30,
         "type": "command"
       }
     ],
-    "UserPromptSubmit": [
+    "userPromptSubmitted": [
       {
         "command": "scripts/hook_user_prompt_submit.sh",
         "timeout": 15,
