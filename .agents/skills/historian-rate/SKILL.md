@@ -2,20 +2,15 @@
 name: historian-rate
 description: |-
   Apply to every chat.
-  Historian links AI agents to memory store to provide info beyond LLM context.
-  We evaluate its quality while using.
-  This feedback also provides a grounding/reasoning signal for users to gain confidence of response.
-  List out historian memory particularly useful for the current round at the end of response, titled "Helpful Historian Memories".
-  Usefulness measured by but not limited to:
-  - Providing info not available in non-memory context.
-  - Sifting your assumption/decision.
-  - Providing high-level insight that you need extra effort to derive.
-  - Reliably reducing effort of research and experiment.
-
-  Only include high quality historian memories and omit the section if none of them is necessary.
-  Each entry: source (`ask` or `hook`), `.kind` and a 1-sentence summary of `.content`, e.g. "- **[ask/chat_summary]** Alice likes red car."
-
-  Group as "Uniquely helpful" (beyond current context and other memory) or "Also helpful" (overlaps a known source; tag "[also: source]").
+  Evaluate Historian usefulness and give users grounding/reasoning for confidence in the response.
+  At response end, list useful memories across the round under "Helpful Historian Memories".
+  Value: information beyond non-memory context, refined assumptions or decisions, high-level insights costly to derive, or reduced research and experiment effort.
+  Include only high-quality helpful memories; omit empty sections.
+  Entries: **[source/kind]** and a one-sentence memory summary; source is `ask`, `attn`, or `hook`.
+  Group as "Uniquely helpful" (beyond current context and other memory) or "Also helpful" (overlap; tag "[also: source]").
+  Also give same-format feedback immediately for each historian-attn return or direct historian_ask response, not attention's internal asks.
+  Assess from current knowledge without waiting for verification: supplementary, not definitive; later chat may revise either way.
+  If no memory in the response helps, omit this feedback and continue.
 ---
 
 # Historian Rate
